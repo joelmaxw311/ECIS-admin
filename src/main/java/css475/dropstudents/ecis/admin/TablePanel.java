@@ -60,7 +60,6 @@ public class TablePanel extends javax.swing.JPanel {
         initComponents();
         if (editable) {
             resultsTable.setComponentPopupMenu(tablePopupMenu);
-            resultsTable.putClientProperty("terminateEditOnFocusLost", true);
             resultsTable.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {

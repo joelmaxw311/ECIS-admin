@@ -76,6 +76,7 @@ public class AppWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSplitPane4 = new javax.swing.JSplitPane();
         jSplitPane2 = new javax.swing.JSplitPane();
         jSplitPane1 = new javax.swing.JSplitPane();
         try {
@@ -92,129 +93,147 @@ public class AppWindow extends javax.swing.JFrame {
                     votingItemButton = new javax.swing.JButton();
                     voteButton = new javax.swing.JButton();
                     partyButton = new javax.swing.JButton();
+                    jSplitPane5 = new javax.swing.JSplitPane();
+                    try {
+                        tablePanel4 = new css475.dropstudents.ecis.admin.TablePanel(db, "VotingItem", true);
+                        try {
+                            tablePanel5 = new css475.dropstudents.ecis.admin.TablePanel(db, "VotingRecord", true);
 
-                    setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                            setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-                    jSplitPane2.setDividerLocation(300);
-                    jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
+                            jSplitPane4.setDividerLocation(400);
 
-                    jSplitPane1.setDividerLocation(550);
+                            jSplitPane2.setDividerLocation(300);
+                            jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                            jSplitPane1.setDividerLocation(550);
+
+                        } catch (SQLException ex) {
+                            ex.printStackTrace();
+                        }
+                        jSplitPane1.setRightComponent(tablePanel2);
+
+                    } catch (SQLException ex) {
+                        Logger.getLogger(AppWindow.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    jSplitPane1.setLeftComponent(tablePanel1);
+
+                    jSplitPane2.setTopComponent(jSplitPane1);
+
+                    jSplitPane3.setDividerLocation(150);
+
+                } catch (java.sql.SQLException e1) {
+                    e1.printStackTrace();
                 }
-                jSplitPane1.setRightComponent(tablePanel2);
+                jSplitPane3.setRightComponent(tablePanel3);
+
+                newCandidateButton.setText("New Candidate");
+                newCandidateButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        newCandidateButtonActionPerformed(evt);
+                    }
+                });
+
+                newLocationButton.setText("New Location");
+                newLocationButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        newLocationButtonActionPerformed(evt);
+                    }
+                });
+
+                refreshButton.setText("Refresh");
+                refreshButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        refreshButtonActionPerformed(evt);
+                    }
+                });
+
+                votingItemButton.setText("New  Voting Item");
+                votingItemButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        votingItemButtonActionPerformed(evt);
+                    }
+                });
+
+                voteButton.setText("Add Vote");
+                voteButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        voteButtonActionPerformed(evt);
+                    }
+                });
+
+                partyButton.setText("New Party");
+                partyButton.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        partyButtonActionPerformed(evt);
+                    }
+                });
+
+                javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+                jPanel1.setLayout(jPanel1Layout);
+                jPanel1Layout.setHorizontalGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(refreshButton)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(votingItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(newLocationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(newCandidateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(voteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(partyButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap())
+                );
+                jPanel1Layout.setVerticalGroup(
+                    jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(newCandidateButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(newLocationButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(votingItemButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(voteButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(partyButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshButton)
+                        .addContainerGap())
+                );
+
+                jSplitPane3.setLeftComponent(jPanel1);
+
+                jSplitPane2.setRightComponent(jSplitPane3);
+
+                jSplitPane4.setLeftComponent(jSplitPane2);
+
+                jSplitPane5.setDividerLocation(300);
+                jSplitPane5.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
 
             } catch (SQLException ex) {
-                Logger.getLogger(AppWindow.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
-            jSplitPane1.setLeftComponent(tablePanel1);
+            jSplitPane5.setTopComponent(tablePanel4);
 
-            jSplitPane2.setTopComponent(jSplitPane1);
-
-            jSplitPane3.setDividerLocation(150);
-
-        } catch (java.sql.SQLException e1) {
-            e1.printStackTrace();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
-        jSplitPane3.setRightComponent(tablePanel3);
+        jSplitPane5.setRightComponent(tablePanel5);
 
-        newCandidateButton.setText("New Candidate");
-        newCandidateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newCandidateButtonActionPerformed(evt);
-            }
-        });
-
-        newLocationButton.setText("New Location");
-        newLocationButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newLocationButtonActionPerformed(evt);
-            }
-        });
-
-        refreshButton.setText("Refresh");
-        refreshButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
-            }
-        });
-
-        votingItemButton.setText("New  Voting Item");
-        votingItemButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                votingItemButtonActionPerformed(evt);
-            }
-        });
-
-        voteButton.setText("Add Vote");
-        voteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                voteButtonActionPerformed(evt);
-            }
-        });
-
-        partyButton.setText("New Party");
-        partyButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                partyButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(refreshButton)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(votingItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(newLocationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(newCandidateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(voteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                    .addComponent(partyButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(newCandidateButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(newLocationButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(votingItemButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(voteButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(partyButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
-                .addComponent(refreshButton)
-                .addContainerGap())
-        );
-
-        jSplitPane3.setLeftComponent(jPanel1);
-
-        jSplitPane2.setRightComponent(jSplitPane3);
+        jSplitPane4.setRightComponent(jSplitPane5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 758, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jSplitPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 924, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jSplitPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
         );
 
         pack();
@@ -347,6 +366,8 @@ public class AppWindow extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JSplitPane jSplitPane3;
+    private javax.swing.JSplitPane jSplitPane4;
+    private javax.swing.JSplitPane jSplitPane5;
     private javax.swing.JButton newCandidateButton;
     private javax.swing.JButton newLocationButton;
     private javax.swing.JButton partyButton;
@@ -354,6 +375,8 @@ public class AppWindow extends javax.swing.JFrame {
     private css475.dropstudents.ecis.admin.TablePanel tablePanel1;
     private css475.dropstudents.ecis.admin.TablePanel tablePanel2;
     private css475.dropstudents.ecis.admin.TablePanel tablePanel3;
+    private css475.dropstudents.ecis.admin.TablePanel tablePanel4;
+    private css475.dropstudents.ecis.admin.TablePanel tablePanel5;
     private javax.swing.JButton voteButton;
     private javax.swing.JButton votingItemButton;
     // End of variables declaration//GEN-END:variables
