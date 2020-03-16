@@ -7,6 +7,10 @@ package css475.dropstudents.ecis.admin;
 
 import css475.dropstudents.ecis.*;
 import java.awt.Component;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
@@ -53,8 +58,56 @@ public class TablePanel extends javax.swing.JPanel {
         this.tableName = tableName;
         loadResultsTable();
         initComponents();
-        if (editable)
+        if (editable) {
             resultsTable.setComponentPopupMenu(tablePopupMenu);
+            resultsTable.putClientProperty("terminateEditOnFocusLost", true);
+            resultsTable.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+
+                        int row = resultsTable.getSelectedRow();
+                        int column = resultsTable.getSelectedColumn();
+                        String columnName = resultsModel.getColumnName(column);
+                        
+                        String sql = String.format("UPDATE %s SET %s = %s WHERE ",
+                                tableName,
+                                columnName,
+                                ColumnSpec.formatType(resultsModel.getValueAt(row, column), columnTypes[column])
+                            );
+                        
+                        List<String> conditions = new ArrayList();
+                        List<String> rowConditions = new ArrayList();
+                        for (int c = 0; c < resultsTable.getColumnCount(); c++ ) {
+                            if (c != column) {
+                                String cname = resultsModel.getColumnName(c);
+                                Object value = resultsModel.getValueAt(row, c);
+                                String cType = columnTypes[c];
+                                if (value == null)
+                                    rowConditions.add(String.format("`%s` IS NULL", cname));
+                                else if (cType.equalsIgnoreCase("Int") || cType.equalsIgnoreCase("Real")) // number type
+                                    rowConditions.add(String.format("`%s` = %s", cname, value));
+                                else // string type
+                                    rowConditions.add(String.format("`%s` = '%s'", cname, value));
+                            }
+                        }
+                        conditions.add("( " + rowConditions.stream().collect(Collectors.joining(" AND ")) + " )");
+                        sql += conditions.stream()
+                                .collect(Collectors.joining(" OR "));
+                        sql += ";";
+
+                        System.out.println(sql);
+                        try {
+                            db.execute(sql);
+                            refresh();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(TablePanel.class.getName()).log(Level.SEVERE, null, ex);
+                            JOptionPane.showMessageDialog(TablePanel.this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); // show error message
+                        }
+                    }
+                }
+            });
+        }
     }
     
     public TablePanel(MySqlConnection.Database db, String tableName) throws SQLException {

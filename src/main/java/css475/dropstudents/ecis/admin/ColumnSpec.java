@@ -70,7 +70,7 @@ public class ColumnSpec {
         }
     }
     
-    private static String formatType(Object value, ValueType type) {
+    public static String formatType(Object value, ValueType type) {
         switch (type) {
             case Text:
                 return String.format("\"%s\"", value);
@@ -79,5 +79,19 @@ public class ColumnSpec {
             default: // Real, (Key)
                 return Objects.toString(value);
         }
+    }
+    
+    public static String formatType(Object value, String typeString) {
+        ValueType type;
+        switch (typeString) {
+            case "VARCHAR":
+            case "CHAR":
+                type = ValueType.Text;
+                break;
+            default:
+                type = ValueType.Real;
+                
+        }
+        return formatType(value, type);
     }
 }
