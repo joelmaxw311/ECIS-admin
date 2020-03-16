@@ -23,13 +23,19 @@ public class AppWindow extends javax.swing.JFrame {
     private final String host = 
             "css475groupproject.coqyi6uxbprc.us-east-1.rds.amazonaws.com";
     MySqlConnection connection;
-    MySqlConnection.Database db;
+    MySqlConnection.Database db = null;
     /**
      * Creates new form AppWindow
      */
     public AppWindow() throws ClassNotFoundException, SQLException {
         connection = new MySqlConnection(host);
-        connectToDatabase("editor");
+        while (db == null || !db.isConnected()) {
+            try {
+                connectToDatabase("editor");
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
         initComponents();
     }
     
@@ -83,9 +89,11 @@ public class AppWindow extends javax.swing.JFrame {
                     newCandidateButton = new javax.swing.JButton();
                     newLocationButton = new javax.swing.JButton();
                     refreshButton = new javax.swing.JButton();
+                    votingItemButton = new javax.swing.JButton();
+                    voteButton = new javax.swing.JButton();
+                    partyButton = new javax.swing.JButton();
 
                     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-                    setPreferredSize(new java.awt.Dimension(778, 426));
 
                     jSplitPane2.setDividerLocation(300);
                     jSplitPane2.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -132,6 +140,27 @@ public class AppWindow extends javax.swing.JFrame {
             }
         });
 
+        votingItemButton.setText("New  Voting Item");
+        votingItemButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                votingItemButtonActionPerformed(evt);
+            }
+        });
+
+        voteButton.setText("Add Vote");
+        voteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voteButtonActionPerformed(evt);
+            }
+        });
+
+        partyButton.setText("New Party");
+        partyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                partyButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -139,11 +168,15 @@ public class AppWindow extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(newCandidateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(newLocationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(refreshButton))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(refreshButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(votingItemButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                    .addComponent(newLocationButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(newCandidateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(voteButton, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                    .addComponent(partyButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,8 +186,14 @@ public class AppWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(newLocationButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(votingItemButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(voteButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(partyButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(refreshButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jSplitPane3.setLeftComponent(jPanel1);
@@ -174,7 +213,7 @@ public class AppWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addComponent(jSplitPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -219,6 +258,48 @@ public class AppWindow extends javax.swing.JFrame {
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         refresh();
     }//GEN-LAST:event_refreshButtonActionPerformed
+
+    private void votingItemButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_votingItemButtonActionPerformed
+        InsertFrame frame = new InsertFrame(
+                db, 
+                "VotingItem",
+                new ColumnSpec("Title", ColumnSpec.ValueType.Text, true),
+                new ColumnSpec("Description", ColumnSpec.ValueType.Text, false)
+        );
+        frame.setVisible(true);
+        if (frame.isConfirmed()) {
+            System.out.println(frame.getInsertQuery()); // show insert command
+            refresh();
+        }
+    }//GEN-LAST:event_votingItemButtonActionPerformed
+
+    private void voteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voteButtonActionPerformed
+        InsertFrame frame = new InsertFrame(
+                db, 
+                "VotingRecord",
+                new ColumnSpec("CandidateId", "Candidate", "ID", "FirstName", ColumnSpec.ValueType.Int, true),
+                new ColumnSpec("BillId", "VotingItem", "ID", "Title", ColumnSpec.ValueType.Int, true),
+                new ColumnSpec("VoteId", "Vote", "ID", "Choice", ColumnSpec.ValueType.Int, true)
+        );
+        frame.setVisible(true);
+        if (frame.isConfirmed()) {
+            System.out.println(frame.getInsertQuery()); // show insert command
+            refresh();
+        }
+    }//GEN-LAST:event_voteButtonActionPerformed
+
+    private void partyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_partyButtonActionPerformed
+        InsertFrame frame = new InsertFrame(
+                db, 
+                "PoliticalParty",
+                new ColumnSpec("Name", ColumnSpec.ValueType.Text, true)
+        );
+        frame.setVisible(true);
+        if (frame.isConfirmed()) {
+            System.out.println(frame.getInsertQuery()); // show insert command
+            refresh();
+        }
+    }//GEN-LAST:event_partyButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,9 +349,12 @@ public class AppWindow extends javax.swing.JFrame {
     private javax.swing.JSplitPane jSplitPane3;
     private javax.swing.JButton newCandidateButton;
     private javax.swing.JButton newLocationButton;
+    private javax.swing.JButton partyButton;
     private javax.swing.JButton refreshButton;
     private css475.dropstudents.ecis.admin.TablePanel tablePanel1;
     private css475.dropstudents.ecis.admin.TablePanel tablePanel2;
     private css475.dropstudents.ecis.admin.TablePanel tablePanel3;
+    private javax.swing.JButton voteButton;
+    private javax.swing.JButton votingItemButton;
     // End of variables declaration//GEN-END:variables
 }
