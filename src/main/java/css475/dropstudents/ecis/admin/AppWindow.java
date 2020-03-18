@@ -40,7 +40,7 @@ public class AppWindow extends javax.swing.JFrame {
     }
     
     public void refresh() {
-        TablePanel[] tables = {tablePanel1, tablePanel2, tablePanel3 };
+        TablePanel[] tables = {tablePanel1, tablePanel2, tablePanel3, tablePanel4, tablePanel5 };
         for (TablePanel table : tables) {
             try {
                 table.refresh();
