@@ -122,6 +122,39 @@ public class TablePanel extends javax.swing.JPanel {
     }
     
     public void dropSelection() {
+		if (tableName == "VotingItem" && resultsTable.getSelectedRows().length > 0)
+		{
+			// execute query to delete voting records if we are deleting a voting item
+			String votingRecordDelete = "DELETE FROM VotingRecord WHERE BillId IN (";
+			List<String> rowConditions = new ArrayList();
+			for (int row = 0; row < resultsTable.getSelectedRows().length; row++)
+			{
+				// foreach id that wants to be deleted
+				//   add it to the string of BillIds to delete
+				Object value = resultsModel.getValueAt(resultsTable.getSelectedRows()[row], 0);
+				String cType = columnTypes[0];
+				if (cType.equalsIgnoreCase("Int") || cType.equalsIgnoreCase("Real")) // number type
+				{
+					votingRecordDelete += String.format("%s", value);
+				}
+				if (row < resultsTable.getSelectedRows().length - 1)
+				{
+					votingRecordDelete += ",";
+				}
+			}
+			votingRecordDelete += ");";
+			System.out.println(votingRecordDelete);
+			
+			try {
+				db.execute(votingRecordDelete);
+				// Don't refresh or else the next query won't activate because selectedRows will get reset.
+			} catch (SQLException ex) {
+				Logger.getLogger(TablePanel.class.getName()).log(Level.SEVERE, null, ex);
+				JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE); // show error message
+			}
+			
+		}
+		
         String sql = "DELETE FROM `" + tableName + "` WHERE ";
         List<String> conditions = new ArrayList();
         for (int r : resultsTable.getSelectedRows()) {
